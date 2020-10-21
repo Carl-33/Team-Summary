@@ -9,47 +9,47 @@ const OUTPUT_DIR = path.resolve(__dirname, "output")
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const team = [];
-
+const render = require("./lib/htmlRenderer");
 function makeTeam () {
   inquirer.prompt([
   {
     type: "input",
-    name: "name",
+    name: "nameChoice",
     message: "What is your name?"
   },
   {
     type: "input",
-    name: "email",
+    name: "emailChoice",
     message: "What is you email address?"
   },
   {
     type: "list",
-    name: "role",
+    name: "roleChoice",
     message: "What is your role?",
     choices: ["Manager", "Engineer", "Intern"]
   },
   {
     type: "input",
-    name: "officeNumber",
+    name: "officeNumberChoice",
     message: "What is your office number?",
     when: function (info) {
-      return (info.role === "Manager")
+      return (info.roleChoice === "Manager")
     }
   },
   {
     type: "input",
-    name: "gitHub",
+    name: "gitHubChoice",
     message: "What is your gitHub User name?",
     when: function (info) {
-      return (info.role === "Engineer")
+      return (info.roleChoice === "Engineer")
     }
   },
   {
     type: "input",
-    name: "school",
+    name: "schoolChoice",
     message: "What school do you go to?",
     when: function (info) {
-      return (info.role === "Intern")
+      return (info.roleChoice === "Intern")
     }
   },
   {
@@ -59,36 +59,47 @@ function makeTeam () {
   }
 ]).then(function (data) {  
   
-  if (data.role === "Manager"){
-    manager = new Manager(data.name, data.email, data.officeNumber)
-    team.push(manager)
+  if (data.roleChoice === "Manager"){
+    const manager = new Manager(data.nameChoice, data.emailChoice, data.officeNumberChoice);
+    team.push(manager);
+    console.log(`Added ${data.nameChoice} the ${data.roleChoice} to the team`)
   };
-  if(data.role === "Engineer"){
-    engineer = new Engineer(data.name, data.email, data.gitHub)
-    team.push(engineer)
+  if(data.roleChoice === "Engineer"){
+    const engineer = new Engineer(data.nameChoice, data.emailChoice, data.gitHubChoice);
+    team.push(engineer);
+    console.log(`Added ${data.nameChoice} the ${data.roleChoice} to the team`)
   };
-  if(data.role === "Intern"){
-    intern = new Intern(data.name, data.email, data.school)
-    team.push(intern)
+  if(data.roleChoice === "Intern"){
+    const intern = new Intern(data.nameChoice, data.emailChoice, data.schoolChoice);
+    team.push(intern);
+    console.log(`Added ${data.nameChoice} the ${data.roleChoice} to the team`)
   };
   if (data.addUser === true){
-    console.log(team);
     makeTeam();
   };
   if (data.addUser === false){
-    console.log("done already?")
-    console.log(team);
-
-// add reference to some sort of render function here. 
-
+    console.log("Finished building team")
+    fs.writeFileSync(outputPath, render(team));
   }
 
 
 })
 
+
 }
 
+
+
 makeTeam();
+// outputTeam();
+
+// function outputTeam () {
+//   console.log("yo it's the team yall " + team)
+//   fs.writeFileSync(outputPath, JSON.stringify(team))
+// }
+
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
