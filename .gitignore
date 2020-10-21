@@ -107,5 +107,5 @@ dist
 Develop
 
 #package.json
-package.json
 package-lock.json
+package.json

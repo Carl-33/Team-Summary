@@ -16,7 +16,7 @@ An easy to use tool to organize and diplay your team.  From Mangers, to Engineer
   ## Installation 
   Install node.js and download Team-Summary files
 
-  ## Usage Instructions 
+  ## Usage  
   run "node app.js" and answer the questions as they appear in the terminal to fill out your team.
   ![Image of Terminal](Assets/Capture1.JPG)
 
